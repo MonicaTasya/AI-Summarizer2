@@ -1,5 +1,6 @@
-
+import { useState } from "react";
 const Summarize = ({inputText, setInputText, ringkasButt, resetButt, summarize, model, setModel, loading}) => {
+  const [copied, setCopied] = useState(false);
   return (
      <>
          <p className="mb-[5px] text-[15px] font-semibold">Masukkan teks untuk diringkas:</p>
@@ -50,8 +51,21 @@ const Summarize = ({inputText, setInputText, ringkasButt, resetButt, summarize, 
                 <p className="bg-white rounded-xl p-4">
                   Hasil ringkasan teks akan muncul di sini setelah proses ringkasan selesai.
                 </p>
-              )}
+              )}      
+      <button
+        onClick={() => {
+          navigator.clipboard.writeText(summarize);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        }}
+        className="mt-2 px-4 py-1 bg-cyan-500 text-white rounded hover:bg-green-500 transition">
+        Salin
+        </button>
+      {copied && (
+        <p className="text-sm text-green-600 italic mt-1">Ringkasan disalin!</p>
+      )}
             </div>
+
 
           </section>
      </>
