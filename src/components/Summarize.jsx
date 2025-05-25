@@ -1,5 +1,5 @@
 
-const Summarize = ({inputText, setInputText, ringkasButt, resetButt, summarize, model, setModel}) => {
+const Summarize = ({inputText, setInputText, ringkasButt, resetButt, summarize, model, setModel, loading}) => {
   return (
      <>
          <p className="mb-[5px] text-[15px] font-semibold">Masukkan teks untuk diringkas:</p>
@@ -38,10 +38,21 @@ const Summarize = ({inputText, setInputText, ringkasButt, resetButt, summarize, 
 
             <h2 className="mt-8 text-[20px] font-bold">Hasil Ringkasan</h2>
           <section className="bg-white p-4 rounded-xl">
-            <p
-            className="bg-white rounded-xl">
-              {summarize || "Hasil Ringkasan akan muncul disini"}
-            </p>
+            <div className="text-gray-700">
+              {summarize ? (
+                <p className="bg-white rounded-xl p-4">{summarize}</p>
+              ) : loading ? (
+                <div className="flex items-center justify-center py-4">
+                  <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                  <span className="ml-3">Memproses ringkasan...</span>
+                </div>
+              ) : (
+                <p className="bg-white rounded-xl p-4">
+                  Hasil ringkasan teks akan muncul di sini setelah proses ringkasan selesai.
+                </p>
+              )}
+            </div>
+
           </section>
      </>
   );

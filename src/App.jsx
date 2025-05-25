@@ -8,10 +8,12 @@ function App() {
   const [summary, setSummary] = useState("");
   const [history, setHistory] = useState([]);
   const [model, setModel] = useState("deepseek/deepseek-chat-v3-0324:free");
+  const [loading, setLoading] = useState(false);
 
   const ringkasButt = async ()=> {
     if(inputText.trim() === "") return;
   setSummary("");
+  setLoading(true);
 
    try {
     const response = await fetch(
@@ -43,7 +45,7 @@ function App() {
   } catch (error) {
     console.error("Gagal mengambil data ringkasan:", error);
   } finally {
-    // setLoading(false);
+    setLoading(false);
   }
   }
   useEffect(() => {
@@ -75,6 +77,7 @@ function App() {
     summarize={summary}
     model={model}
     setModel={setModel}
+    loading={loading}
     />
     <History history={history} deleteButton={deleteHistory}/>
       </main>
