@@ -7,18 +7,47 @@ function App() {
   const [inputText, setInputText] = useState("");
   const [summary, setSummary] = useState("");
   const [history, setHistory] = useState([]);
+  const [model, setModel] = useState("deepseek/deepseek-chat-v3-0324:free");
 
-  const ringkasButt = ()=> {
+  const ringkasButt = async ()=> {
     if(inputText.trim() === "") return;
+  setSummary("");
 
-    setSummary(inputText);
+   try {
+    const response = await fetch(
+      "https://openrouter.ai/api/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_OPENROUTER_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: model,
+          messages: [
+            {
+              role: "user",
+              content: `Summarize the following text without any addition answer. Answer in the language the user speaks:\n${inputText}`,
+            },
+          ],
+        }),
+      }
+    );
 
-    const newHistory = [inputText, ...history].slice(0, 10);
+    const data = await response.json();
+    console.log(data);
+    setSummary(data.choices[0].message.content);
+    const newHistory = [...history, data.choices[0].message.content];
     setHistory(newHistory);
-    localStorage.setItem("history", JSON.stringify(newHistory));
+    localStorage.setItem("summaryHistory", JSON.stringify(newHistory));
+  } catch (error) {
+    console.error("Gagal mengambil data ringkasan:", error);
+  } finally {
+    // setLoading(false);
+  }
   }
   useEffect(() => {
-    const storedHistory = localStorage.getItem("history");
+    const storedHistory = localStorage.getItem("summaryHistory");
     if (storedHistory) {
       setHistory(JSON.parse(storedHistory));
     }
@@ -30,7 +59,7 @@ function App() {
   const deleteHistory= (index)=>{
     const newHistory = history.filter((_, i) => i !== index);
     setHistory(newHistory);
-    localStorage.setItem("history", JSON.stringify(newHistory));
+    localStorage.setItem("summaryHistory", JSON.stringify(newHistory));
   }
 
   return (
@@ -43,7 +72,10 @@ function App() {
     setInputText={setInputText} 
     ringkasButt={ringkasButt} 
     resetButt={resetButt} 
-    summarize={summary}/>
+    summarize={summary}
+    model={model}
+    setModel={setModel}
+    />
     <History history={history} deleteButton={deleteHistory}/>
       </main>
 
