@@ -13,7 +13,7 @@ function History({history, deleteButton}) {
                 <p>{item}</p>
                 <button 
                 onClick={() => deleteButton(index)} 
-                className="ml-4 p-2 bg-cyan-700 text-white rounded hover:bg-red-600 transition">delete</button>
+                className="ml-4 p-2 bg-cyan-700 text-white rounded hover:bg-red-600 transition cursor-pointer">delete</button>
               </li>
             ))}
           </ul>

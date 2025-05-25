@@ -29,17 +29,17 @@ const Summarize = ({inputText, setInputText, ringkasButt, resetButt, summarize, 
                 ></textarea>
             <div className="flex flex-col p-[10px] my-[5px] gap-[10px]">
                 <button
-                className="bg-cyan-700 px-[15px] rounded-md hover:bg-cyan-500 text-white transition duration-300 xl:px-[8vw]"
+                className="bg-cyan-700 px-[15px] rounded-md hover:bg-cyan-500 text-white transition duration-300 xl:px-[8vw] cursor-pointer"
                 onClick={ringkasButt}>Ringkas</button>
                 <button
-                className="bg-cyan-700 px-[15px] rounded-md hover:bg-red-600 text-white transition duration-300 xl:px-[8vw]"
+                className="bg-cyan-700 px-[15px] rounded-md hover:bg-red-600 text-white transition duration-300 xl:px-[8vw] cursor-pointer"
                 onClick={resetButt}>Reset</button>
             </div></div>
 
             <h2 className="mt-8 text-[20px] font-bold">Hasil Ringkasan</h2>
           <section className="bg-white p-4 rounded-xl">
             <p
-            className="bg-white text-gray-400 rounded-xl">
+            className="bg-white rounded-xl">
               {summarize || "Hasil Ringkasan akan muncul disini"}
             </p>
           </section>
